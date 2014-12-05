@@ -1,17 +1,17 @@
-#NC Extension mongoose-store
+#NCE Extension mongoose-store
 ## Description
-Document-store for NC cms
+Document-store for NCE cms
 
 ## How to install
 Install with npm: `npm install --save nce-mongoose-store`
 
-Integrate in NC:
+Integrate in NCE:
 
 ```
-var NC = require("nc");
-var nc = new NC(/*{"mongoose-store": {href:"mongodb://localhost/dbName"}}*/);
+var NCE = require("nce");
+var nce = new NCE(/*{"mongoose-store": {href:"mongodb://localhost/dbName"}}*/);
 var store = require("nce-mongoose-store");
-var ext = store(nc);
+var ext = store(nce);
 ext.install();
 ext.activate();
 ```

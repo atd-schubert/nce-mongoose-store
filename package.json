@@ -1,7 +1,7 @@
 {
   "name": "nce-mongoose-store",
   "version": "0.0.1",
-  "description": "Document-store for nc cms",
+  "description": "Document-store for nce cms",
   "main": "mongoose-store.js",
   "scripts": {
     "test": "mocha"
@@ -12,9 +12,9 @@
   },
   "keywords": [
     "cms",
-    "nc",
-    "middleware",
-    "assets"
+    "nce",
+    "mongoose",
+    "store"
   ],
   "author": "Arne Schubert <atd.schubert@gmail.com>",
   "license": "ISC",
@@ -26,7 +26,7 @@
     "mongoose": "^3.8.19"
   },
   "devDependencies": {
-    "nc":">=0.0.1",
+    "nce":">=0.0.1",
     "nce-winston": ">=0.0.1"
   },
   "peerDependencies": {

@@ -24,7 +24,7 @@ module.exports = function(cms){
   
   ext.on("install", function(event){ // set options, but don't run or make available in cms
     //# Seting extension-config:
-    ext.config.href = ext.config.href || "mongodb://localhost/nc-cms";
+    ext.config.href = ext.config.href || "mongodb://localhost/nce-cms";
     ext.config.logger = ext.config.logger || {};
 
     //# Declarations and settings:

@@ -4,28 +4,28 @@
   You have to start mongod for this test!
 */
 
-var NC = require("nc");
+var NCE = require("nce");
 var Ext = require("../");
 var Logger = require("nce-winston");
 
-describe('Basic integration in NC', function(){
-  var nc = new NC();
-  var logger = Logger(nc);
+describe('Basic integration in NCE', function(){
+  var nce = new NCE();
+  var logger = Logger(nce);
   logger.install();
   logger.activate();
   
-  it('should be insertable into NC', function(done){
-    var ext = Ext(nc);
+  it('should be insertable into NCE', function(done){
+    var ext = Ext(nce);
     if(ext) return done();
-    return done(new Error("Is not able to insert extension into NC"));
+    return done(new Error("Is not able to insert extension into NCE"));
   });
 });
-describe('Basic functions in NC', function(){
-  var nc = new NC({"mongoose-store":{href:"mongodb://localhost/test"}});
-  var logger = Logger(nc);
+describe('Basic functions in NCE', function(){
+  var nce = new NCE({"mongoose-store":{href:"mongodb://localhost/test"}});
+  var logger = Logger(nce);
   logger.install();
   logger.activate();
-  var ext = Ext(nc);
+  var ext = Ext(nce);
   
   it('should be installable', function(done){
     if(ext.install()) return done();
@@ -45,11 +45,11 @@ describe('Basic functions in NC', function(){
   });
 });
 describe('Basic store commands', function(){
-  var nc = new NC({"mongoose-store":{href:"mongodb://localhost/test"}});
-  var logger = Logger(nc);
+  var nce = new NCE({"mongoose-store":{href:"mongodb://localhost/test"}});
+  var logger = Logger(nce);
   logger.install();
   logger.activate();
-  var ext = Ext(nc);
+  var ext = Ext(nce);
   ext.install();
   ext.activate();
   it('should create a schema', function(done){
