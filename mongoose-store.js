@@ -2,15 +2,16 @@
 
 var mongoose = require("mongoose");
 
-var connectDB = function(path) {
+var connectDB = function(path, logger) {
+  logger = logger || console;
   if(mongoose.connection._readyState!==0) {
-    console.error("There is already a connection...");
+    logger.warn("There is already a connection...");
     //console.log(mongoose.connection);
     return mongoose;
   }
   mongoose.connect(path);
   mongoose.connection.once("open", function(){
-    console.log("Connection to db '"+path+"' established...");
+    logger.info("Connection to db '"+path+"' established...");
   });
   return mongoose;
 };
@@ -24,8 +25,10 @@ module.exports = function(cms){
   ext.on("install", function(event){ // set options, but don't run or make available in cms
     //# Seting extension-config:
     ext.config.href = ext.config.href || "mongodb://localhost/nc-cms";
+    ext.config.logger = ext.config.logger || {};
 
     //# Declarations and settings:
+    ext.logger = cms.getExtension("winston").createLogger(ext.name, ext.config.logger);
   });
   
   ext.on("uninstall", function(event){ // undo installation
@@ -34,7 +37,7 @@ module.exports = function(cms){
   });
   
   ext.on("activate", function(event){ // don't set options, just run, make available in cms or register.
-	  store = connectDB(ext.config.href);
+	  store = connectDB(ext.config.href, ext.logger);
   });
   
   ext.on("deactivate", function(event){ // undo activation

@@ -6,8 +6,14 @@
 
 var NC = require("nc");
 var Ext = require("../");
+var Logger = require("nce-winston");
+
 describe('Basic integration in NC', function(){
   var nc = new NC();
+  var logger = Logger(nc);
+  logger.install();
+  logger.activate();
+  
   it('should be insertable into NC', function(done){
     var ext = Ext(nc);
     if(ext) return done();
@@ -16,6 +22,9 @@ describe('Basic integration in NC', function(){
 });
 describe('Basic functions in NC', function(){
   var nc = new NC({"mongoose-store":{href:"mongodb://localhost/test"}});
+  var logger = Logger(nc);
+  logger.install();
+  logger.activate();
   var ext = Ext(nc);
   
   it('should be installable', function(done){
@@ -37,6 +46,9 @@ describe('Basic functions in NC', function(){
 });
 describe('Basic store commands', function(){
   var nc = new NC({"mongoose-store":{href:"mongodb://localhost/test"}});
+  var logger = Logger(nc);
+  logger.install();
+  logger.activate();
   var ext = Ext(nc);
   ext.install();
   ext.activate();

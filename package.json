@@ -26,7 +26,10 @@
     "mongoose": "^3.8.19"
   },
   "devDependencies": {
-    "nc":">=0.0.1"
+    "nc":">=0.0.1",
+    "nce-winston": ">=0.0.1"
   },
-  "peerDependencies": {}
+  "peerDependencies": {
+    "nce-winston": ">=0.0.1"
+  }
 }
