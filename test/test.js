@@ -43,6 +43,14 @@ describe('Basic functions in NCE', function(){
     if(ext.uninstall()) return done();
     return done(new Error("Can not uninstall extension"));
   });
+  it('should be installable again', function(done){
+    if(ext.install()) return done();
+    return done(new Error("Can not install extension"));
+  });
+  it('should be activatable again', function(done){
+    if(ext.activate()) return done();
+    return done(new Error("Can not activate extension"));
+  });
 });
 describe('Basic store commands', function(){
   var nce = new NCE({"mongoose-store":{href:"mongodb://localhost/test"}});
@@ -70,13 +78,40 @@ describe('Basic store commands', function(){
       });
     };
     var model = ext.createModel("test1", schema);
-    var tmp = new model({test: "ok"});
-    tmp.save(function(err){
+    if(ext.getStore().models["test1"]=== model) return done();
+    return done(new Error("Do not get the right content"));
+  });
+  
+  it('should remove a model', function(done){
+    ext.removeModel("test1");
+    if(ext.getStore().models["test1"] === undefined) return done();
+    return new Error("Unable to remove a model");
+  });
+  it('should create a removed model', function(done){
+    var schema = ext.createSchema({test: String});
+    schema.methods.getText = function(){
+      return this.get("test");
+    };
+    schema.statics.getText = function(cb){
+      return this.findOne({}, function(err, doc){
+        if(err) return cb(err);
+        if(!doc) return cb(new Error("Can not find a doc."));
+        return cb(null, doc.getText()); 
+      });
+    };
+    var model = ext.createModel("test1", schema);
+    if(ext.getStore().models["test1"]=== model) return done();
+    return done(new Error("Do not get the right content"));
+  });
+  it('should create a test document', function(done){
+    var model = ext.getModel("test1");
+    var doc = new model({test:"OK"});
+    doc.save(function(err){
       if(err) return done(err);
-      model.getText(function(err, txt){
+      model.find({test:"OK"}, function(err, doc){
         if(err) return done(err);
-        if(txt === "ok") return done();
-        return done(new Error("Do not get the right content"));
+        if(!doc) return done(new Error("Can not get document"));
+        return done();
       });
     });
   });
