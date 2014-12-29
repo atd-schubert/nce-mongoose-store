@@ -9,7 +9,11 @@ var connectDB = function(path, logger) {
     //console.log(mongoose.connection);
     return mongoose;
   }
-  mongoose.connect(path);
+  mongoose.connect(path, function(err){
+    if(err) {
+      logger.error(err.message, err);
+    }
+  });
   mongoose.connection.once("open", function(){
     logger.info("Connection to db '"+path+"' established...");
   });
@@ -41,7 +45,7 @@ module.exports = function(cms){
   });
   
   ext.on("deactivate", function(event){ // undo activation
-	  
+	  mongoose.connection.close();
   });
   
 //# Private declarations:
