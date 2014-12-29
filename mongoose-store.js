@@ -74,6 +74,7 @@ module.exports = function(nce){
     if(!store) throw new Error("The store isn't activated");
     if(!store.models[name]) return false;
     delete store.models[name];
+    ext.emit("removeModel", name);
     return true;
   };
   ext.getStore = function(){ return store; };
