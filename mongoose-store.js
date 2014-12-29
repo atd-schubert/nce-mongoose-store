@@ -20,27 +20,27 @@ var connectDB = function(path, logger) {
   return mongoose;
 };
 
-module.exports = function(cms){
-  if(!cms) throw new Error("You have to specify the cms object");
+module.exports = function(nce){
+  if(!nce) throw new Error("You have to specify the nce object");
   
 //# Mandantory Setup:
-  var ext = cms.createExtension({package: require("./package.json")});
+  var ext = nce.createExtension({package: require("./package.json")});
   
-  ext.on("install", function(event){ // set options, but don't run or make available in cms
+  ext.on("install", function(event){ // set options, but don't run or make available in nce
     //# Seting extension-config:
-    ext.config.href = ext.config.href || "mongodb://localhost/nce-cms";
+    ext.config.href = ext.config.href || "mongodb://localhost/nce-nce";
     ext.config.logger = ext.config.logger || {};
 
     //# Declarations and settings:
-    ext.logger = cms.getExtension("winston").createLogger(ext.name, ext.config.logger);
+    ext.logger = nce.getExtension("winston").createLogger(ext.name, ext.config.logger);
   });
   
   ext.on("uninstall", function(event){ // undo installation
     //# Undeclare:
-    cms.getExtension("winston").removeLogger(ext.name);
+    nce.getExtension("winston").removeLogger(ext.name);
   });
   
-  ext.on("activate", function(event){ // don't set options, just run, make available in cms or register.
+  ext.on("activate", function(event){ // don't set options, just run, make available in nce or register.
 	  store = connectDB(ext.config.href, ext.logger);
   });
   
