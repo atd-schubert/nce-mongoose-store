@@ -28,7 +28,7 @@ module.exports = function(nce){
   
   ext.on("install", function(event){ // set options, but don't run or make available in nce
     //# Seting extension-config:
-    ext.config.href = ext.config.href || "mongodb://localhost/nce-nce";
+    ext.config.href = ext.config.href || "mongodb://localhost/nce";
     ext.config.logger = ext.config.logger || {};
 
     //# Declarations and settings:
@@ -69,6 +69,12 @@ module.exports = function(nce){
     ext.emit("newModel", model);
     // register events...
     return model;
+  };
+  ext.removeModel = function(name){
+    if(!store) throw new Error("The store isn't activated");
+    if(!store.models[name]) return false;
+    delete store.models[name];
+    return true;
   };
   ext.getStore = function(){ return store; };
   
