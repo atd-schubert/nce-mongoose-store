@@ -55,7 +55,6 @@ module.exports = function(nce){
   ext.createSchema = function(obj){
     if(!store) throw new Error("The store isn't activated");
     var schema = new store.Schema(obj);
-    // TODO: this causes an error at the moment: schema.plugin(eventify);
     ext.emit("newSchema", schema);
     return schema;
   };

@@ -5,14 +5,11 @@
 */
 
 var NCE = require("nce");
+var ExtMgr = require("nce-extension-manager");
 var Ext = require("../");
-var Logger = require("nce-winston");
 
 describe('Basic integration in NCE', function(){
   var nce = new NCE();
-  var logger = Logger(nce);
-  logger.install();
-  logger.activate();
   
   it('should be insertable into NCE', function(done){
     var ext = Ext(nce);
@@ -22,17 +19,16 @@ describe('Basic integration in NCE', function(){
 });
 describe('Basic functions in NCE', function(){
   var nce = new NCE({"mongoose-store":{href:"mongodb://localhost/test"}});
-  var logger = Logger(nce);
-  logger.install();
-  logger.activate();
   var ext = Ext(nce);
+  var extMgr = ExtMgr(nce);
+  extMgr.activateExtension(extMgr);
   
   it('should be installable', function(done){
-    if(ext.install()) return done();
+    if(extMgr.installExtension(ext) && ext.status === "installed") return done();
     return done(new Error("Can not install extension"));
   });
   it('should be activatable', function(done){
-    if(ext.activate()) return done();
+    if(extMgr.activateExtension(ext) && ext.status === "activated") return done();
     return done(new Error("Can not activate extension"));
   });
   it('should be deactivatable', function(done){
@@ -54,12 +50,10 @@ describe('Basic functions in NCE', function(){
 });
 describe('Basic store commands', function(){
   var nce = new NCE({"mongoose-store":{href:"mongodb://localhost/test"}});
-  var logger = Logger(nce);
-  logger.install();
-  logger.activate();
   var ext = Ext(nce);
-  ext.install();
-  ext.activate();
+  var extMgr = ExtMgr(nce);
+  extMgr.activateExtension(extMgr);
+  extMgr.activateExtension(ext);
   it('should create a schema', function(done){
     var schema = ext.createSchema({test: String});
     if(schema && schema.methods && schema.statics) return done();
